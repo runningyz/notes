@@ -1,8 +1,12 @@
 ### 概述
 
-+ mysql中索引的存储类型:BTree和Hash
-+ 为什么:没有索引就从第一行开始找
-+ 索引的类型依赖于存储引擎
++ mysql中4种索引类型(底层算法方面 区别于普通索引 唯一索引等分类)
+  + B-Tree:(MyISAM对B树索引进行前缀压缩 InnoDB不会)![图为B+树实现的索引](https://user-gold-cdn.xitu.io/2017/8/4/4f27a8f9900dc7b080bb3ff94169863f?imageslim)
+  + hash索引:(MyISAM和InnoDb都不支持 只有Memory,NDB支持hash索引 场景有限 不可查范围)![hash索引](https://user-gold-cdn.xitu.io/2017/8/4/e491d298996a16ca1c56fd53dedbfecd?imageslim)
+  + R-Tree(空间数据索引):需要GIS地理信息相关函数的支持
+  + 全文索引:代替like搜索方式,但是不如专业的搜索引擎Sphinx或者Solr
++ 为什么:没有索引就从第一行开始找,索引可以加速查询
++ 索引的类型依赖于存储引擎,不同的引擎对相同索引类型可能实现不一样
 
 ### 优劣
 
@@ -11,9 +15,8 @@
 
 ### 分类
 
-+ 普通索引和唯一索引
++ 普通索引和唯一索引(特殊的主键索引)
 + 单列索引和组合索引
-+ 全文索引
 
 ### 设计原则
 
@@ -75,4 +78,4 @@ SHOW INDEX FROM customer1;
 
 
 
-注:mysql中只有MyISAM引擎支持全文索引 默认是InnoDB 所以使用全文索引要指定引擎
+注:mysql中只有MyISAM引擎支持全文索引 默认是InnoDB 所以使用全文索引要指定引擎 ***从5.6开始 支持InnoDB引擎的全文索引***

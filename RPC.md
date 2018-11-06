@@ -8,7 +8,7 @@
 + 经典和常用的服务器模型
 + RPC的分布式
 
-### RPC是什么
+### 一.RPC是什么
 
 1.rpc远程过程调用 出自1984年nelson和birrell的一篇论文 Implementing Remote Procedure Calls 论文链接:
 
@@ -32,7 +32,7 @@ http://delivery.acm.org/10.1145/360000/357392/p39-birrell.pdf?ip=219.143.205.144
 + Thrift(Facebook)
 + gRpc(Google)
 
-### RPC出现的场景 和常见的软件
+### 二.RPC出现的场景 和常见的软件
 
 + 在web领域常见的代理Nginx
 
@@ -48,7 +48,7 @@ http://delivery.acm.org/10.1145/360000/357392/p39-birrell.pdf?ip=219.143.205.144
 
 
 
-### RPC交互过程和协议
+### 三.RPC交互过程和协议
 
 1.一个简单的CS结构的 信息交互系统
 
@@ -123,7 +123,7 @@ http://delivery.acm.org/10.1145/360000/357392/p39-birrell.pdf?ip=219.143.205.144
 
   负数直接存为对应的正数,正数直接乘2
 
-### 经典的和常用的单机服务器模型
+### 四.经典的和常用的单机服务器模型
 
 + 单线程同步模型
 + 多线程同步模型
@@ -147,5 +147,46 @@ http://delivery.acm.org/10.1145/360000/357392/p39-birrell.pdf?ip=219.143.205.144
 
 边缘触发就是服务员台子上放了三份芋圆,通知你一次,后面你自己拿就好了,就像缓冲区,只有指针从底部边缘上移的时候,才触发.
 
-### RPC分布式内容
+### 五.RPC分布式内容
+
+1.服务注册与发现
+
+​	rpc服务经常需要使用集群来提高系统性能,为了能灵活地为客户端提供服务,避免服务器发生变化时,手动向consumer更新状态,需要一个注册中心,维护一个集群服务器的列表,相当于把集群管理起来,对于集群里每台服务器,都会进行心跳监测,动态更新可用列表
+
+![img](http://oek9m2h2f.bkt.clouddn.com/RpcPubSub.png)
+
+2.服务高可用
+
+​	高可用就是减少服务故障时间
+
+​	设计原则:冗余+故障转移
+
+![1541487154442](C:\Users\Administrator\AppData\Roaming\Typora\typora-user-images\1541487154442.png)
+
+3.负载均衡
+
++ RoundRobin
++ WLC(weighted Least Connection)(访问次数 除以权重 选这个值最小的)
+
+![1541489549228](C:\Users\Administrator\AppData\Roaming\Typora\typora-user-images\1541489549228.png)
+
++ WeightedRoundRobin
+
+  + 每个节点有三个属性: W(weight) E(effectiveWeight) C(currentWeight)
+  + 定义T = totalWeight
+  + 每次轮询 C = C + E(+E的作用,因为E表示的含义是他的可用性,通过+E让用过的节点在后续的选举中逐渐恢复竞争力)
+  + 选举C最大的一个访问
+  + 访问成功 C = C-T(保证刚用过的节点不会被立刻访问)
+  + 请求异常时 E -= 1 
+
++ DAWRRRLB(动态自适应权重轮询随机负载均衡算法)
+
++ LocalFirst
+
++ Random
+
++ ConsistentHash
+
+
+
 

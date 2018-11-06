@@ -192,6 +192,13 @@ http://delivery.acm.org/10.1145/360000/357392/p39-birrell.pdf?ip=219.143.205.144
 
 + ConsistentHash
 
+  + hash(request IP)     hash(response IP)
+  + 静态hash,对服务器数量取模,不能满足动态扩容和删除节点的需要
+  + 一致性哈希:对2^32取模
+  + 服务器节点和访问 都打到哈希环上
+  + 有节点撤出时 局部失衡 不会全局失衡
+  + 节点映射不均匀 复制等量的虚拟节点
+
 
 
 
